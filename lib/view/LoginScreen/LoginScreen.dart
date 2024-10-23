@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
                   height: 150.h,
                   width: 150.h,
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/image/quiz.png')),
+                    image: DecorationImage(image: AssetImage('assets/image/QuikQuiz.png')),
                   ),
                 ),
               ),
@@ -170,7 +170,7 @@ class LoginScreen extends StatelessWidget {
                         width: 50.h,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20.h),
-                            image: DecorationImage(image: AssetImage('assets/image/google.png'))
+                            image: DecorationImage(image: AssetImage('assets/image/google.jpeg'))
                         ),
                       ),
                       Container(

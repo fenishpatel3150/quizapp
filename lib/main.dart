@@ -6,6 +6,7 @@ import 'package:quizapp/controller/QuizController.dart';
 import 'package:quizapp/view/SplashScreen/SplashScreen.dart';
 import 'package:quizapp/view/home/HomeScreen.dart';
 import 'package:quizapp/view/home/componets/bottombar.dart';
+import 'package:quizapp/view/profile/ProfileScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home:SplashScreen(),
+        home:ProfileScreen(),
       ),
     );
   }

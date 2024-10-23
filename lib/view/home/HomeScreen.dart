@@ -36,8 +36,7 @@ class HomeScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                trailing: CircleAvatar(
-                  child: Image(image: AssetImage('assets/image/Avatar.png')),
+                trailing: Image(image: AssetImage('assets/image/Avatar.png',),fit: BoxFit.cover,
                 ),
                 subtitle: Text(
                   'Madelyn Dias',
@@ -248,17 +247,17 @@ class HomeScreen extends StatelessWidget {
 
 List details = [
   {
-    'image': 'assets/image/Avatar (1).png',
+    'image': 'assets/image/Avatar.png',
     'name': 'Maren Workmen',
     'subtitle': '325 points',
   },
   {
-    'image': 'assets/image/Avatar (2).png',
+    'image': 'assets/image/Avatar 2.png',
     'name': 'Brandon Matrovs',
     'subtitle': '124 points',
   },
   {
-    'image': 'assets/image/Avatar (3).png',
+    'image': 'assets/image/Avatar 3.png',
     'name': 'Manuela Lipshutz',
     'subtitle': '437 points',
   }

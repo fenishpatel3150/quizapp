@@ -26,17 +26,11 @@ class SplashScreen extends StatelessWidget {
               height: 150.h,
               width: 150.h,
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage('assets/image/quiz.png')),
+                image: DecorationImage(image: AssetImage('assets/image/QuikQuiz.png')),
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Quik',style: TextStyle(fontSize: 25.h,color: Color(0xFFffcc00),fontWeight: FontWeight.bold),),
-              Text('Quizzes',style: TextStyle(fontSize: 25.h,color: Colors.white,fontWeight: FontWeight.bold),),
-            ],
-          )
+         
         ],
       ),
     );

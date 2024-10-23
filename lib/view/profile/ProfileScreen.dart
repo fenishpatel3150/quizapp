@@ -215,7 +215,7 @@ class ProfileScreen extends StatelessWidget {
                                                     height: 50.h,
                                                     width: 50.h,
                                                     decoration: BoxDecoration(
-                                                        image: DecorationImage(image: AssetImage('assets/image/Avatar (1).png'))
+                                                        image: DecorationImage(image: AssetImage('assets/image/Avatar 4.png'))
                                                     ),
                                                   ),
                                                   title: Text('Davis Curtis',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
@@ -253,7 +253,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ],
                       image: DecorationImage(
-                        image: AssetImage('assets/image/Avatar.png'),
+                        image: AssetImage('assets/image/Avatar 4.png'),
                         fit: BoxFit.cover,
                       ),
                     ),
