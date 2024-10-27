@@ -170,7 +170,7 @@ class GoogleFirebaseServices {
           };
           UserModal newUser = UserModal(userModal);
           await UserService.userService.addUser(newUser);
-        }else{}
+        }
 
       }
 

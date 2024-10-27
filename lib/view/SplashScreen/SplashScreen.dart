@@ -2,11 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:quizapp/view/LoginScreen/LoginScreen.dart';
-import 'package:quizapp/view/LoginScreen/SignupScreen.dart';
-import 'package:quizapp/view/home/HomeScreen.dart';
-import 'package:quizapp/view/home/componets/bottombar.dart';
+
+import '../../helper/Auth_gate.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -15,7 +12,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Timer(Duration(seconds: 3), () {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+            context, MaterialPageRoute(builder: (context) => AuthGate(),));
     });
     return Scaffold(
       backgroundColor: Color(0xff6a5ae0),

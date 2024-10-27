@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/',
             page: () =>
-                AuthGate(),
+                SplashScreen(),
             //LoginScreen()
 
           ),

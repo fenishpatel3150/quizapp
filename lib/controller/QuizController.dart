@@ -1,5 +1,6 @@
 
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quizapp/helper/ApiService.dart';
@@ -8,7 +9,8 @@ import '../helper/Auth_services.dart';
 import '../helper/score_services.dart';
 
 class QuizController extends GetxController {
-  var userdata = GoogleFirebaseServices.googleFirebaseServices.auth.currentUser;
+
+
   var selectedIndex = (-1).obs; // To track selected option
   RxList<Category> quizList = <Category>[].obs;
   var currentCategoryIndex = 0.obs; // To track current quiz category
@@ -81,8 +83,10 @@ class QuizController extends GetxController {
   }
 
   Future<void> saveScore() async {
-    if (userdata != null && userdata!.email != null) {
-      await updateQuizScore(email: userdata!.email, score: totalScore.value);
+    String? userEmail = GoogleFirebaseServices.googleFirebaseServices.auth.currentUser?.email;
+    User? userdata = GoogleFirebaseServices.googleFirebaseServices.auth.currentUser;
+    if (userdata != null && userEmail != null) {
+      await updateQuizScore(email: userdata?.email, score: totalScore.value);
     } else {
       print("User not authenticated, cannot save score.");
     }
