@@ -21,7 +21,7 @@ class QuizStartScreen extends StatelessWidget {
                   height: 150.h,
                   width: 150.h,
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/image/Nerd Face.png')),
+                    image: DecorationImage(image: AssetImage('assets/image/Nerd Face/0.png')),
                   ),
                 ),
               ),

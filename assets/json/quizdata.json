@@ -1,7 +1,7 @@
 [
     {
       "category": "General Knowledge",
-      "image": "assets/image/genral.png",
+      "image": "assets/image/genral/0.png",
       "quiz":"General Knowledge : 20 Quizzes",
       "questions": [
         {
@@ -208,7 +208,7 @@
     },
     {
       "category": "Science",
-      "image": "assets/image/science.png",
+      "image": "assets/image/science/0.png",
       "quiz":"Science : 20 Quizzes",
       "questions": [
         {
@@ -415,7 +415,7 @@
     },
     {
       "category": "History",
-      "image": "assets/image/history.png",
+      "image": "assets/image/history/0.png",
       "quiz":"History : 20 Quizzes",
       "questions": [
         {
@@ -622,7 +622,7 @@
     },
     {
       "category": "Mathematics",
-      "image": "assets/image/maths.png",
+      "image": "assets/image/maths/0.png",
       "quiz":"Mathematics : 20 Quizzes",
       "questions": [
         {
@@ -829,7 +829,7 @@
     },
     {
       "category": "Sports",
-      "image": "assets/image/sports.png",
+      "image": "assets/image/sports/0.png",
       "quiz":"Sports : 20 Quizzes",
       "questions": [
         {
@@ -1036,7 +1036,7 @@
     },
     {
       "category": "Movies",
-      "image": "assets/image/movie.png",
+      "image": "assets/image/movie/0.png",
       "quiz":"Movies : 20 Quizzes",
       "questions": [
         {
@@ -1243,7 +1243,7 @@
     },
     {
       "category": "Music",
-      "image": "assets/image/music.png",
+      "image": "assets/image/music/0.png",
       "quiz":"Music : 20 Quizzes",
       "questions": [
         {
@@ -1450,7 +1450,7 @@
     },
     {
       "category": "Technology",
-      "image": "assets/image/tech.png",
+      "image": "assets/image/tech/0.png",
       "quiz":"Technology : 20 Quizzes",
       "questions": [
         {
@@ -1657,7 +1657,7 @@
     },
     {
       "category": "Literature",
-      "image": "assets/image/icons8-literature-50.png",
+      "image": "assets/image/icons8-literature-50/0.png",
       "quiz":"Literature : 20 Quizzes",
       "questions": [
         {
@@ -1864,7 +1864,7 @@
     },
     {
       "category": "Geography",
-      "image": "assets/image/geography.png",
+      "image": "assets/image/geography/0.png",
       "quiz":"Geography : 20 Quizzes",
       "questions": [
         {

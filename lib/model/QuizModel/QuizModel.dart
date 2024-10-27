@@ -19,7 +19,6 @@ class Category {
       questions: questions,
     );
   }
-
 }
 
 class Question {

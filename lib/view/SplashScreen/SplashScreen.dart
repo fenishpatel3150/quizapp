@@ -13,8 +13,9 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 5), () {
-      Get.to(LoginScreen());
+    Timer(Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginScreen(),));
     });
     return Scaffold(
       backgroundColor: Color(0xff6a5ae0),
@@ -26,7 +27,7 @@ class SplashScreen extends StatelessWidget {
               height: 150.h,
               width: 150.h,
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage('assets/image/QuikQuiz.png')),
+                image: DecorationImage(image: AssetImage('assets/image/QuikQuiz/0.png')),
               ),
             ),
           ),

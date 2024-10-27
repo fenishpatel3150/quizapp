@@ -2,16 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:quizapp/controller/Auth_controller.dart';
+import 'package:quizapp/helper/Auth_services.dart';
 import 'package:quizapp/view/LoginScreen/LoginScreen.dart';
 import 'package:quizapp/view/LoginScreen/SignupScreen.dart';
 import 'package:quizapp/view/home/componets/bottombar.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+   LoginScreen({super.key});
 
+  final Auth_controller authController = Get.put(Auth_controller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +31,7 @@ class LoginScreen extends StatelessWidget {
                   height: 150.h,
                   width: 150.h,
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/image/QuikQuiz.png')),
+                    image: DecorationImage(image: AssetImage('assets/image/QuikQuiz/0.png')),
                   ),
                 ),
               ),
@@ -55,7 +59,8 @@ class LoginScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child:  TextFormField(
-                      style: const TextStyle(color: Colors.white),
+                      controller: authController.txtEmail,
+                      style: const TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50.r),
@@ -81,15 +86,8 @@ class LoginScreen extends StatelessWidget {
                         hintStyle: const TextStyle(color: Colors.grey),
                       ),
                       validator: (value) {
-                        bool emailValidation = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(value!);
-                        if (value.isEmpty) {
-                          return "Enter Email";
-                        } else if (!emailValidation) {
-                          return "Enter Valid Email";
-                        }
-                        return null;
+                        String? error = authController.validateEmail(value);
+                        return error;
                       },
                     ),
                   ),
@@ -101,42 +99,52 @@ class LoginScreen extends StatelessWidget {
                       color: Color(0xffededed),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
-                    child: TextFormField(
-                      style: const TextStyle(color: Colors.black),
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50.r),
-                          borderSide: const BorderSide(color: Color(0xffededed)),
+                    child:Obx(()
+                      => TextFormField(
+                        controller: authController.txtPwd,
+                        style: const TextStyle(color: Colors.black),
+                        obscureText: !authController.isShowPwd.value,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50.r),
+                            borderSide: const BorderSide(color: Color(0xffededed)),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50.r),
+                            borderSide: const BorderSide(color: Color(0xffededed)),
+                          ),
+                      
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50.r),
+                            borderSide:  BorderSide(color: Color(0xffededed)),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50.r),
+                            borderSide:  BorderSide(color: Color(0xffededed)),
+                          ),
+                          hintText: 'Password',
+                          prefixIcon:  Padding(
+                            padding: EdgeInsets.only(left: 10.h),
+                            child: Icon(Icons.lock, color: Colors.grey),
+                          ),
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: IconButton(
+                              icon: Icon(
+                                authController.isShowPwd.value ? Icons.visibility : Icons.visibility_off,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                authController.showPassword();
+                              },
+                            ),
+                          ),
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50.r),
-                          borderSide: const BorderSide(color: Color(0xffededed)),
-                        ),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50.r),
-                          borderSide:  BorderSide(color: Color(0xffededed)),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50.r),
-                          borderSide:  BorderSide(color: Color(0xffededed)),
-                        ),
-                        hintText: 'Password',
-                        prefixIcon:  Padding(
-                          padding: EdgeInsets.only(left: 10.h),
-                          child: Icon(Icons.lock, color: Colors.grey),
-                        ),
-                        hintStyle: const TextStyle(color: Colors.grey),
-
+                        validator: (value) {
+                          return authController.validatePassword(value);
+                        },
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Password";
-                        } else if (value.length < 6) {
-                          return "Password length should be more than 6 characters";
-                        }
-                        return null;
-                      },
                     ),
                   ),
                   Padding(
@@ -146,8 +154,20 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(height: 20.h,),
                   GestureDetector(
                     onTap: ()
-                    {
-                      Get.to(BottomBar(),transition: Transition.downToUp);
+                    async{
+                      await authController.validateInputs(authController.txtEmail, authController.txtPwd);
+                      if (authController.error.isEmpty) {
+                        try{
+                          GoogleFirebaseServices.googleFirebaseServices.signIn(email:authController.txtEmail.text.trim(),pwd: authController.txtPwd.text);
+
+                        } catch (e) {
+                          Get.snackbar("Error",e.toString());
+                        }
+
+                      } else {
+                        Get.snackbar('Error', authController.error.value);
+                      }
+                      //Get.to(BottomBar(),transition: Transition.downToUp);
                     },
                     child: Container(
                         height: 50.h,
@@ -165,12 +185,23 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        height: 50.h,
-                        width: 50.h,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.h),
-                            image: DecorationImage(image: AssetImage('assets/image/google.jpeg'))
+                      InkWell(
+                        onTap: () async {
+                          String status = await GoogleFirebaseServices.googleFirebaseServices.signInWithGoogle();
+
+                          Fluttertoast.showToast(msg: status);
+                          if (status == 'Success') {
+                            Get.offAndToNamed('/bottembar');
+
+                          }
+                        },
+                        child: Container(
+                          height: 50.h,
+                          width: 50.h,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.h),
+                              image: DecorationImage(image: AssetImage('assets/image/google/0.jpg'))
+                          ),
                         ),
                       ),
                       Container(
@@ -178,7 +209,7 @@ class LoginScreen extends StatelessWidget {
                         width: 50.h,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20.h),
-                            image: DecorationImage(image: AssetImage('assets/image/apple.png'))
+                            image: DecorationImage(image: AssetImage('assets/image/apple/0.png'))
                         ),
                       ),
                       Container(
@@ -186,7 +217,7 @@ class LoginScreen extends StatelessWidget {
                         width: 50.h,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20.h),
-                            image: DecorationImage(image: AssetImage('assets/image/facebook.png'))
+                            image: DecorationImage(image: AssetImage('assets/image/facebook/0.png'))
                         ),
                       ),
                     ],

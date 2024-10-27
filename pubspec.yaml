@@ -42,6 +42,13 @@ dependencies:
   flutter_screenutil: ^5.9.3
   http: any
   contained_tab_bar_view: ^0.8.0
+  firebase_core: any
+  firebase_auth: any
+  cloud_firestore: ^5.4.4
+  google_sign_in: any
+  fluttertoast: ^8.2.8
+
+
 
 
 dev_dependencies:
@@ -72,6 +79,34 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/image/
+    - assets/image/tech/
+    - assets/image/QuikQuiz/
+    - assets/image/facebook/
+    - assets/image/google/
+    - assets/image/apple/
+    - assets/image/Nerd Face/
+    - assets/image/geography/
+    - assets/image/genral/
+    - assets/image/Frame/
+    - assets/image/Card (1)/
+    - assets/image/Card/
+    - assets/image/Avatar 4/
+    - assets/image/Avatar 3/
+    - assets/image/Avatar 2/
+    - assets/image/Avatar/
+    - assets/image/3/
+    - assets/image/4/
+    - assets/image/5/
+    - assets/image/6/
+    - assets/image/7/
+    - assets/image/8/
+    - assets/image/icons8-literature-50/
+    - assets/image/maths/
+    - assets/image/movie/
+    - assets/image/music/
+    - assets/image/sports/
+    - assets/image/science/
+    - assets/image/history/
     - assets/json/quizdata.json
 
 

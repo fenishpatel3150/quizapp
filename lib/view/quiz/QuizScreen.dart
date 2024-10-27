@@ -79,6 +79,12 @@ class QuizScreen extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: () {
                                   quizController.selectOption(index);
+
+                                  String selectedOption = quizController.quizList[quizController.currentCategoryIndex.value]
+                                      .questions[quizController.questionIndex.value]
+                                      .options[index];
+
+                                  quizController.checkAnswer(selectedOption);
                                 },
                                 child: Obx(
                                       () => Container(

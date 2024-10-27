@@ -3,15 +3,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import '../../controller/Auth_controller.dart';
+import '../../helper/Auth_services.dart';
+import '../../helper/get_userdata_services.dart';
+import '../../model/userdataModel/userdata_Model.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    GetUserdataServices getuserdata = GetUserdataServices();
+    String? userEmail = GoogleFirebaseServices.googleFirebaseServices.auth.currentUser?.email;
+
+
     return Scaffold(
       backgroundColor: Color(0xff6a5ae0),
-      body: SingleChildScrollView(
+      body: FutureBuilder<UserdataModel?>(
+        future: getuserdata.getUserData(userEmail!),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return Center(child: Text('Error: ${snapshot.error}'));
+      } else if (!snapshot.hasData || snapshot.data == null) {
+        return Center(child: Text('No user data found.'));
+      }
+
+      final userdata = snapshot.data;
+
+      return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -22,8 +44,11 @@ class ProfileScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 40.h, right: 15.h),
                   child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.settings, color: Colors.white),
+                    onPressed: () {
+                      GoogleFirebaseServices.googleFirebaseServices.emailLogout();
+                      Get.offAndToNamed("/signin");
+                    },
+                    icon: Icon(Icons.logout, color: Colors.white),
                   ),
                 ),
               ],
@@ -73,17 +98,17 @@ class ProfileScreen extends StatelessWidget {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Image(
+                                          if(userdata!.quizScore! > 5)Image(
                                               image: AssetImage(
-                                                  'assets/image/6.png')),
-                                          Image(
+                                                  'assets/image/6/0.png')),
+                                          if(userdata!.quizScore! > 15)Image(
                                               image: AssetImage(
-                                                  'assets/image/7.png')),
-                                          Image(
+                                                  'assets/image/7/0.png')),
+                                          if(userdata!.quizScore! > 25)Image(
                                               image: AssetImage(
-                                                  'assets/image/8.png')),
+                                                  'assets/image/8/0.png')),
                                         ],
                                       ),
                                       SizedBox(
@@ -91,17 +116,18 @@ class ProfileScreen extends StatelessWidget {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Image(
+                                          if(userdata!.quizScore! > 35)Image(
                                               image: AssetImage(
-                                                  'assets/image/5.png')),
-                                          Image(
+                                                  'assets/image/5/0.png')),
+                                          if(userdata!.quizScore! > 45)Image(
                                               image: AssetImage(
-                                                  'assets/image/4.png')),
-                                          Image(
+                                                  'assets/image/4/0.png')),
+                                          if(userdata!.quizScore! > 95)Image(
                                               image: AssetImage(
-                                                  'assets/image/3.png')),
+                                                  'assets/image/3/0.png')),
+                                          Text("No more  Badges yet")
                                         ],
                                       ),
                                     ],
@@ -111,77 +137,126 @@ class ProfileScreen extends StatelessWidget {
                                       Stack(
                                         children: [
                                           Padding(
-                                            padding:  EdgeInsets.all(8.0.h),
+                                            padding: EdgeInsets.all(8.0.h),
                                             child: Container(
-                                              height: 450.h,decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(20.r),
-                                              color: Color(0xffe8e5fa),
-                                            ),
+                                              height: 450.h,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius
+                                                    .circular(20.r),
+                                                color: Color(0xffe8e5fa),
+                                              ),
 
                                             ),
                                           ),
                                           Center(child: Padding(
-                                            padding:  EdgeInsets.only(top: 45.h),
-                                            child: Text('You have played a total ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20.h),),
+                                            padding: EdgeInsets.only(top: 45.h),
+                                            child: Text(
+                                              'You have played a total ',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20.h),),
                                           )),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .center,
                                             children: [
                                               Center(child: Padding(
-                                                padding:  EdgeInsets.only(top: 75.h),
-                                                child: Text('24 Quizzes',style: TextStyle(color: Color(0xff6a5ae0),fontWeight: FontWeight.bold,fontSize: 20.h),),
+                                                padding: EdgeInsets.only(
+                                                    top: 75.h),
+                                                child: Text('24 Quizzes',
+                                                  style: TextStyle(color: Color(
+                                                      0xff6a5ae0),
+                                                      fontWeight: FontWeight
+                                                          .bold,
+                                                      fontSize: 20.h),),
                                               )),
                                               Center(child: Padding(
-                                                padding:  EdgeInsets.only(top: 75.h),
-                                                child: Text('  this month!',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20.h),),
+                                                padding: EdgeInsets.only(
+                                                    top: 75.h),
+                                                child: Text('  this month!',
+                                                  style: TextStyle(color: Colors
+                                                      .black,
+                                                      fontWeight: FontWeight
+                                                          .bold,
+                                                      fontSize: 20.h),),
                                               )),
                                             ],
                                           ),
                                           Center(
                                             child: Padding(
-                                              padding: const EdgeInsets.only(top: 150),
+                                              padding: const EdgeInsets.only(
+                                                  top: 150),
                                               child: StreamBuilder<Object>(
-                                                stream: null,
-                                                builder: (context, snapshot) {
-                                                  return Column(
-                                                    children: [
-                                                      Container(
-                                                        height: 150.h,
-                                                        width: 150.h,
-                                                        child: CircularProgressIndicator(
-                                                          value: 35/50,
-                                                          color: Color(0xff6a5ae0),
+                                                  stream: null,
+                                                  builder: (context, snapshot) {
+                                                    return Column(
+                                                      children: [
+                                                        Container(
+                                                          height: 150.h,
+                                                          width: 150.h,
+                                                          child: CircularProgressIndicator(
+                                                            value: 35 / 50,
+                                                            color: Color(
+                                                                0xff6a5ae0),
+                                                          ),
                                                         ),
-                                                      ),
 
-                                                    ],
-                                                  );
-                                                }
+                                                      ],
+                                                    );
+                                                  }
                                               ),
                                             ),
                                           ),
 
                                           Padding(
-                                            padding:  EdgeInsets.only(top: 300.h),
+                                            padding: EdgeInsets.only(
+                                                top: 300.h),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              mainAxisAlignment: MainAxisAlignment
+                                                  .spaceEvenly,
                                               children: [
                                                 Container(
                                                   height: 80.h,
                                                   width: 130.h,
-                                                  decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(20.r)),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius
+                                                          .circular(20.r)),
                                                   child: ListTile(
-                                                    title: Text('5',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 25.h),),
-                                                    subtitle: Text('Quiz Created',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                                                    title: Text('5',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold,
+                                                          fontSize: 25.h),),
+                                                    subtitle: Text(
+                                                      'Quiz Created',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold),),
                                                   ),
                                                 ),
                                                 Container(
                                                   height: 80.h,
                                                   width: 130.h,
-                                                  decoration: BoxDecoration(color: Color(0xff6a5ae0),borderRadius: BorderRadius.circular(20.r)),
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xff6a5ae0),
+                                                      borderRadius: BorderRadius
+                                                          .circular(20.r)),
                                                   child: ListTile(
-                                                    title: Text('21',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.h),),
-                                                    subtitle: Text('Quiz won',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                                                    title: Text('21',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight
+                                                              .bold,
+                                                          fontSize: 25.h),),
+                                                    subtitle: Text('Quiz won',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight
+                                                              .bold),),
 
                                                   ),
                                                 ),
@@ -206,7 +281,8 @@ class ProfileScreen extends StatelessWidget {
                                               width: 300.h,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                borderRadius: BorderRadius.circular(20.h),
+                                                borderRadius: BorderRadius
+                                                    .circular(20.h),
                                               ),
                                               child:
                                               Center(
@@ -215,18 +291,29 @@ class ProfileScreen extends StatelessWidget {
                                                     height: 50.h,
                                                     width: 50.h,
                                                     decoration: BoxDecoration(
-                                                        image: DecorationImage(image: AssetImage('assets/image/Avatar 4.png'))
+                                                      shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            image: NetworkImage(
+                                                                '${userdata?.photoUrl}'),)
                                                     ),
                                                   ),
-                                                  title: Text('Davis Curtis',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                                                  subtitle: Text('5600',style: TextStyle(color: Colors.black),),
+                                                  title: Text('${userdata
+                                                      ?.email}',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight
+                                                            .bold),),
+                                                  subtitle: Text('${userdata
+                                                      ?.quizScore}',
+                                                    style: TextStyle(
+                                                        color: Colors.black),),
                                                 ),
                                               ),
                                             ),
                                           )
                                         ],
                                       ),
-                                      
+
 
                                     ),
                                   ),
@@ -253,7 +340,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ],
                       image: DecorationImage(
-                        image: AssetImage('assets/image/Avatar 4.png'),
+                        image: NetworkImage("${userdata?.photoUrl}"),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -265,7 +352,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Center(
                         child: Text(
-                          'Madelyn Dias ',
+                          '${userdata?.username}',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w800,
@@ -298,7 +385,7 @@ class ProfileScreen extends StatelessWidget {
                                   style: TextStyle(color: Colors.white70),
                                 ),
                                 Text(
-                                  '590',
+                                  '${userdata?.quizScore}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w800,
@@ -318,7 +405,7 @@ class ProfileScreen extends StatelessWidget {
                                   style: TextStyle(color: Colors.white70),
                                 ),
                                 Text(
-                                  '590',
+                                  '${userdata?.quizScore}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w800,
@@ -338,7 +425,7 @@ class ProfileScreen extends StatelessWidget {
                                   style: TextStyle(color: Colors.white70),
                                 ),
                                 Text(
-                                  '590',
+                                  '${userdata?.quizScore}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w800,
@@ -356,7 +443,11 @@ class ProfileScreen extends StatelessWidget {
             ),
           ],
         ),
+      );
+    },
       ),
     );
   }
 }
+
+
